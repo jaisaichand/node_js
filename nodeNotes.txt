@@ -1,0 +1,108 @@
+Node js is a runtime environment that is built on v8 javascript engine. 
+v8 is one of the most popular javascript engines made by google. A lot of browsers use this v8 engine. But mozilla firefox uses a different javascript engine called "spider monkey". NodeJS is build on v8 jqavascript engine but it is coded in c++.
+
+Basically in the developement stage, your computer works as a server.
+
+https://www.w3schools.com/nodejs/
+https://www.tutorialspoint.com/nodejs/index.htm
+https://www.javatpoint.com/nodejs-tutorial
+
+Mosh:
+
+We will not have 'window' object in node. We will have some other features instead!. Like file system, http, url etc.
+
+node js is asynchronous (non-blocking) type, Which means the system will not wait until one request is completed execution. So node runs on a single thread. While other back ends like asp.net or rails are synchronous (blocking). Which means that synchronous will wait for one action to get completed before executing another.
+
+We should not use node as back end for cpu intensive applications like video or image editing or processings.
+
+Instead of 'window', we have an object called 'global' through which we can access some of the globally scoped variables like 'setTimeout', 'setInterval', 'clearTimeout' etc... 
+
+The variables that are declared are not gonna become global variables.
+
+In node , every file is a module and every variable and the functions that are declared here will be part of this module only. So, If we ever wanted to use a specific function or a variable in another module, we must export it in the containing file and import it in the file that we wanted to use.
+
+Creating a module:
+Creating a module is as simple as creating a js file. But if we want other modules to access or use these, then we need to first export those from one module and should import into the module that we want to use.
+
+ex:
+to export :
+we use 'module.exports.anyFuncionOrVAriable' = logger;	//here logger is name of a function
+
+ex: 
+module.exports.logger1 = logger;	//if we ever want to import this module, then we need to import it with the name logger1.
+
+to import: 
+We use 'require()' to import other modules. 
+var logger = require('./logger.js')	// we can simply ignore the .js extension and write the name of the file alone(path)
+
+now we can access the exported functions and variables of that module.
+
+
+some of the very important modules:
+http
+file system
+os
+path
+process
+query strings
+stream
+
+
+path module:
+
+OS module:
+In OS module we have a lot of methods that are inbuilt that will give us all the information about the operating system that the user is using.
+
+const os = require('os');
+
+var totalMemory = os.totalmem();  //This returns the total memory in the system.
+var freeMemory = os.freemem();	//this returns the free memory in the system
+
+console.log(`Total memory: ${totalMemory}. Free memory: ${freeMemory}`);
+
+File system Module:
+
+up to OS module
+
+
+=======================================================================================================================================
+
+w3 schools: 
+
+node js have some inbuilt module, and one of the most important one is 'http'.
+To include http module, we use 'require()' method.
+
+var http = require('http');
+
+http module is used to create a server, This module has a method called 'createServer()' that listens to a port constantly.
+
+ex:
+var http = require('http');
+
+http.createServer(
+function(req,res){
+res.write('Hello World!');	//write a response to the client
+res.end();	//end the response. call back on end of response.
+}).listen(8080);	// this is where we specify the port that we should listen to.
+
+
+By the above way, all the text that we send through 'write', will be just a text display. But if we want the text to be displayed as html we need to also include 'writeHead()' which takes two arguments. One is the status code , which should be 200. Which will state that everything is okay. and the other argument is a json object, with key 'content-type' and value 'text/html'.
+ex:
+res.writeHead(200,{'content-type':'text/html'});
+
+The request of the createServer will have a property called 'url'. Which will give us the url that the client side has passed on.
+ex:
+localhost:8080/summer
+
+req.url  //this will return '/summer'
+
+Query string:
+This will basically make the url readable and return the query parameters.
+ex:
+	var url = require('url');
+        var q = url.parse(req.url,true).query;
+        const msg = q.year + ' ' + q.name;
+        res.end(msg);
+
+
+File system:
