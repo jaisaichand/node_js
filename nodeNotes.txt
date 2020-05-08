@@ -8,6 +8,7 @@ https://www.tutorialspoint.com/nodejs/index.htm
 https://www.javatpoint.com/nodejs-tutorial
 
 Mosh:
+====
 
 We will not have 'window' object in node. We will have some other features instead!. Like file system, http, url etc.
 
@@ -62,12 +63,61 @@ console.log(`Total memory: ${totalMemory}. Free memory: ${freeMemory}`);
 
 File system Module:
 
-up to OS module
+We use fs to access all the methods in the file system module. We have two types for all the methods, one is syncronous and other is asynchronous. We should never use synchronous methods. Because node is a single thread method, using synchronous will make the back end completely slow.
 
+Events:
+We generally use events heavily if we want to pass some data. We should 'emit' an event and then we should catch it using 'on'. But we should first call the listener before we rise the event call.
+ex:
+const EventEmitter = require('events');
+
+const emitter = new EventEmitter();
+
+emitter.on('messegeLoaded', (arg) => {console.log('listener called ', arg);});
+
+emitter.emit('messegeLoaded', {id: 1, url: 'http://'});
+
+But, we dont use it like that. Because if i have event emitter in a seperate file and event calling on another file. They wont get triggered, because they both will be using different objects of event emitters. So, we should eliminate this problem with a class that extends EvenEmitter, And this class will be exported and we should create an object for this class in the other file. So as to make sure that all are using the same instance(object) of event emitter.
+
+ex:
+
+in one file:
+-----------
+
+const EventEmitter = require('events');
+class Logger expends EventEmitter{
+log(messege){
+console.log(messege);
+this.emit('logger', {'messege':'any messege'});
+}
+}
+
+module.exports = Logger;	//class name
+
+in other file:
+-------------
+const Logger = require('./logger');	//here we are using the same class of the above file.
+const logger = new Logger();
+
+logger.on('logger', (arg) => {console.log('listener called',arg);});
+logger.log(messege);
+
+HTTP module:
+===========
+Http module is used to create server using 'createServer' method.
+ex:
+http.createServer(
+(req res) => {
+if(req.url == '/user/1'){
+res.write('user 1');
+res.end();
+}
+}
+).listen(3000);
 
 =======================================================================================================================================
 
 w3 schools: 
+==========
 
 node js have some inbuilt module, and one of the most important one is 'http'.
 To include http module, we use 'require()' method.
@@ -106,3 +156,11 @@ ex:
 
 
 File system:
+
+
+
+=======================================================================================================================================
+
+Net Ninja:
+=========
+
